@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\PostStatusEnum;
 
 return new class extends Migration
 {
@@ -14,11 +15,12 @@ return new class extends Migration
         Schema::create('statuses', function (Blueprint $table) {
             $table->id();
             $table->enum('status', [
-                'draft',
-                'review',
-                'published',
-                'archived'
+                PostStatusEnum::DRAFT->value,
+                PostStatusEnum::SUBMITTED->value,
+                PostStatusEnum::ACCEPTED->value,
+                PostStatusEnum::REJECTED->value,
             ]);
+            $table->morphs('statusable');
             $table->foreignId('changed_by')
                 ->constrained('users','id');
             $table->timestamps();

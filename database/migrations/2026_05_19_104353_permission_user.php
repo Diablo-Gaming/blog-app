@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\PermissionType;
 
 return new class extends Migration
 {
@@ -12,11 +13,18 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('permission_user', function (Blueprint $table) {
-            $table->primary(['permission_id', 'user_id']);
             $table->foreignId('permission_id')
                 ->constrained('permissions');
             $table->foreignId('user_id')
                 ->constrained('users');
+            $table->enum('type',[
+                PermissionType::INCLUDE->value,
+                PermissionType::EXCLUDE->value,
+            ])
+                ->default('include');
+            $table->timestamps();
+            $table->primary(['permission_id', 'user_id']);
+
         });
     }
 

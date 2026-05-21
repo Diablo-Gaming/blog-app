@@ -12,11 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('category_post', function (Blueprint $table) {
-            $table->primary(['category_id', 'post_id']);
             $table->foreignId('category_id')
                 ->constrained('categories');
             $table->foreignId('post_id')
                 ->constrained('posts');
+            $table->primary(['category_id', 'post_id']);
         });
     }
 
